@@ -43,8 +43,22 @@ export class SweetsService {
     }
 
     purchase(sweetId: string, quantity: number) {
-        // Note: Purchase endpoint is declared in purchases module but potentially mounted at /api/sweets/:id/purchase
         return this.http.post(`${this.apiUrl}/${sweetId}/purchase`, { quantity }, this.getHeaders())
+            .pipe(tap(() => this.refreshSweets()));
+    }
+
+    createSweet(sweet: Partial<Sweet>) {
+        return this.http.post<Sweet>(this.apiUrl, sweet, this.getHeaders())
+            .pipe(tap(() => this.refreshSweets()));
+    }
+
+    updateSweet(id: string, sweet: Partial<Sweet>) {
+        return this.http.put<Sweet>(`${this.apiUrl}/${id}`, sweet, this.getHeaders())
+            .pipe(tap(() => this.refreshSweets()));
+    }
+
+    deleteSweet(id: string) {
+        return this.http.delete(`${this.apiUrl}/${id}`, this.getHeaders())
             .pipe(tap(() => this.refreshSweets()));
     }
 }
