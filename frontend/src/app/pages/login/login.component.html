@@ -1,0 +1,65 @@
+<div class="login-container">
+  <div class="card login-card">
+    <div class="logo-section">
+      <div class="logo-icon">🍬</div>
+      <h1>Sweet Shop</h1>
+      <p class="subtitle">Welcome back! Sign in to continue</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            class="input-field" 
+            placeholder="your@email.com"
+          >
+          <span class="input-icon">✉️</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password" 
+            class="input-field" 
+            placeholder="••••••••"
+          >
+          <span class="input-icon">🔒</span>
+        </div>
+      </div>
+
+      <!-- Admin Toggle Visualization (Just showing role, but logic handles it via email in this PoC) -->
+      <div class="admin-notice text-light" *ngIf="loginForm.get('email')?.value?.includes('admin')">
+        ️🛡️ Logging in as Administrator
+      </div>
+
+      <button type="submit" class="btn-primary w-100" [disabled]="loginForm.invalid || isLoading">
+        {{ isLoading ? 'Signing In...' : 'Sign In' }}
+      </button>
+
+      <div class="footer-text">
+        Don't have an account? <a href="#">Register here</a>
+      </div>
+    </form>
+
+    <div class="demo-accounts">
+      <div class="demo-box user">
+        <strong>👤 User</strong>
+        <span>user@sweet.com</span>
+        <span>password123</span>
+      </div>
+      <div class="demo-box admin">
+        <strong>🛡️ Admin</strong>
+        <span>admin@sweet.com</span>
+        <span>admin123</span>
+      </div>
+    </div>
+  </div>
+</div>
