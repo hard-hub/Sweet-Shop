@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/hard-hub/Sweet-Shop#readme",
   "devDependencies": {
-    "@prisma/client": "^7.1.0",
+    "@prisma/client": "5.22.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -40,7 +40,7 @@
     "jest": "^30.2.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
-    "prisma": "^7.1.0",
+    "prisma": "5.22.0",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
