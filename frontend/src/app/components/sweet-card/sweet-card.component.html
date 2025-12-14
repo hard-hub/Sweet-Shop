@@ -1,0 +1,33 @@
+<div class="card sweet-card">
+  <div class="icon-wrapper">
+    <!-- Placeholder icons based on category -->
+     <span class="icon">{{ getIcon(sweet.category) }}</span>
+  </div>
+  
+  <h3>{{ sweet.name }}</h3>
+  <span class="badge category">{{ sweet.category }}</span>
+
+  <div class="price-stock">
+    <span class="price">\${{ sweet.price | number:'1.2-2' }}</span>
+    <span class="stock-badge" [class.low]="sweet.quantity < 10" [class.out]="sweet.quantity === 0">
+      {{ sweet.quantity > 0 ? '✓ ' + sweet.quantity + ' in stock' : 'Out of Stock' }}
+    </span>
+  </div>
+
+  <div class="actions">
+    <!-- Simple Purchase Form -->
+    <div class="qty-control" *ngIf="sweet.quantity > 0">
+        <button (click)="decrement()" [disabled]="quantity <= 1">-</button>
+        <span>{{ quantity }}</span>
+        <button (click)="increment()" [disabled]="quantity >= sweet.quantity">+</button>
+    </div>
+
+    <button 
+      class="btn-primary" 
+      [disabled]="sweet.quantity === 0 || isPurchasing"
+      (click)="onPurchase()"
+    >
+      {{ isPurchasing ? 'Processing...' : '🛒 Add to Cart' }}
+    </button>
+  </div>
+</div>

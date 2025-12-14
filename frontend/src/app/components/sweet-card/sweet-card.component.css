@@ -1,0 +1,113 @@
+.sweet-card {
+    text-align: center;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.sweet-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-wrapper {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.badge.category {
+    background: #fde2e6;
+    /* Soft pink bg */
+    color: #ff416c;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+    align-self: center;
+}
+
+.price-stock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ff416c;
+}
+
+.stock-badge {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    background: #e6fffa;
+    color: #2c7a7b;
+    border: 1px solid #b2f5ea;
+}
+
+.stock-badge.low {
+    background: #fffaf0;
+    color: #c05621;
+    border-color: #fbd38d;
+}
+
+.stock-badge.out {
+    background: #fff5f5;
+    color: #c53030;
+    border-color: #feb2b2;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.qty-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    background: #f7fafc;
+    padding: 0.3rem;
+    border-radius: 8px;
+}
+
+.qty-control button {
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #4a5568;
+}
+
+.qty-control button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.btn-primary:disabled {
+    background: #cbd5e0;
+    box-shadow: none;
+    cursor: not-allowed;
+}
