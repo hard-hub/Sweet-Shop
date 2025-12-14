@@ -1,0 +1,59 @@
+<div class="login-container">
+  <div class="card login-card">
+    <div class="logo-section">
+      <div class="logo-icon">📝</div>
+      <h1>Create Account</h1>
+      <p class="subtitle">Join the Sweet Shop community!</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            class="input-field" 
+            placeholder="your@email.com"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password" 
+            class="input-field" 
+            placeholder="Choose a strong password"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>I want to sign up as:</label>
+        <div class="role-selector">
+            <label class="radio-label">
+                <input type="radio" formControlName="role" value="USER"> 
+                <span>👤 Customer</span>
+            </label>
+            <label class="radio-label">
+                <input type="radio" formControlName="role" value="ADMIN"> 
+                <span>🛡️ Admin</span>
+            </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary w-100" [disabled]="registerForm.invalid || isLoading">
+        {{ isLoading ? 'Creating Account...' : 'Sign Up' }}
+      </button>
+
+      <div class="footer-text">
+        Already have an account? <a routerLink="/login">Login here</a>
+      </div>
+    </form>
+  </div>
+</div>

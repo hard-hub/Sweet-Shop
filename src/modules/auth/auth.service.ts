@@ -21,7 +21,7 @@ export class AuthService {
             data: {
                 email,
                 password: hashedPassword,
-                // Default role is USER
+                role: data.role || 'USER', // Allow role override for PoC
             },
         });
 

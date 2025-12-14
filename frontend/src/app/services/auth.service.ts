@@ -24,12 +24,21 @@ export class AuthService {
             .pipe(
                 tap(res => {
                     localStorage.setItem('token', res.token);
-                    // basic jwt decode or just use the user obj from response if provided (backend sends user?)
-                    // Backend response for login currently: { token } only? Let's check backend.
-                    // Phase 1 implementation sends { token: ..., user: ... } ? 
-                    // Let's assume we need to decode or backend should send it.
-                    // For now, let's assume we store the token.
-                    this.currentUser.set({ id: 'decoded-id', email: credentials.email, role: 'USER' }); // Temporary mock until verified
+                    // In a real app we might decode the token, but assuming backend returns user object or we mock it
+                    // Based on previous plan, let's mock the user state or rely on correct API response if updated
+                    // Actually, let's trust the response 'user' object if it exists, otherwise decode or mock
+                    // For this PoC, we update the signal
+                    this.currentUser.set(res.user || { id: 'dec-id', email: credentials.email, role: 'USER' });
+                })
+            );
+    }
+
+    register(data: { email: string; password: string; role?: 'USER' | 'ADMIN' }) {
+        return this.http.post<{ token: string; user: User }>(`${this.apiUrl}/register`, data)
+            .pipe(
+                tap(res => {
+                    localStorage.setItem('token', res.token);
+                    this.currentUser.set(res.user || { id: 'new-id', email: data.email, role: data.role || 'USER' });
                 })
             );
     }

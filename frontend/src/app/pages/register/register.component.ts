@@ -5,45 +5,42 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-login',
+    selector: 'app-register',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, RouterLink],
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
-export class LoginComponent {
+export class RegisterComponent {
     private fb = inject(FormBuilder);
     private authService = inject(AuthService);
     private router = inject(Router);
 
-    loginForm: FormGroup = this.fb.group({
+    registerForm: FormGroup = this.fb.group({
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]]
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        role: ['USER', Validators.required]
     });
 
     isLoading = false;
 
     onSubmit() {
-        if (this.loginForm.valid) {
+        if (this.registerForm.valid) {
             this.isLoading = true;
-            const { email, password } = this.loginForm.value;
-
-            this.authService.login({ email, password }).subscribe({
+            this.authService.register(this.registerForm.value).subscribe({
                 next: () => {
-                    // Navigation will theoretically happen here, but for now just log
-                    console.log('Logged in!');
+                    alert('Registration Successful! Welcome 🍬');
                     this.isLoading = false;
-                    // Temporarily redirect to nothing or dashboard if we had it
-                    // this.router.navigate(['/dashboard']);
+                    this.router.navigate(['/dashboard']);
                 },
                 error: (err) => {
                     console.error(err);
                     this.isLoading = false;
-                    alert('Login failed! Check credentials.');
+                    alert('Registration failed. ' + (err.error?.message || 'Try again.'));
                 }
             });
         } else {
-            this.loginForm.markAllAsTouched();
+            this.registerForm.markAllAsTouched();
         }
     }
 }
