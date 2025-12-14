@@ -1,0 +1,92 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header>
+    <div class="brand">
+        <div class="logo-small admin-logo">🛡️</div>
+        <div class="brand-text">
+            <h2>Sweet Shop</h2>
+            <span>Admin Portal</span>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button class="btn-primary" (click)="openAddModal()">+ Add Sweet</button>
+        <div class="user-badge admin">
+            <span class="avatar">A</span>
+            <span class="email">{{ user()?.email }}</span>
+        </div>
+        <button class="btn-logout" (click)="logout()">↪ Logout</button>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+        <span class="stat-label">Total Products</span>
+        <div class="stat-value">{{ totalProducts() }} <span class="stat-icon box">📦</span></div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label">Active</span>
+        <div class="stat-value">{{ totalProducts() }} <span class="stat-icon candy">🍬</span></div> 
+        <!-- Logic note: total == active in current service implementation -->
+    </div>
+    <div class="stat-card warning" *ngIf="lowStock() > 0">
+        <span class="stat-label">Low Stock</span>
+        <div class="stat-value">{{ lowStock() }} <span class="stat-icon warn">⚠️</span></div>
+    </div>
+    <div class="stat-card danger" *ngIf="outOfStock() > 0">
+        <span class="stat-label">Out of Stock</span>
+        <div class="stat-value">{{ outOfStock() }} <span class="stat-icon error">🚫</span></div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-section card">
+    <div class="filter-header">
+        <span class="filter-icon">🌪️</span> 
+        <h3>Search & Filter</h3>
+    </div>
+    <div class="filter-controls">
+        <div class="control-group grow">
+            <input 
+                type="text" 
+                class="input-field" 
+                placeholder="🔍 Search sweets..." 
+                [formControl]="searchControl"
+            >
+        </div>
+        <!-- Simplified filter for Admin -->
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="sweets-grid">
+    <div class="card sweet-card-admin" *ngFor="let sweet of filteredSweets()">
+        <!-- Icon -->
+        <div class="icon-wrapper">🍬</div>
+        
+        <div class="details">
+            <h3>{{ sweet.name }}</h3>
+            <span class="badge">{{ sweet.category }}</span>
+        </div>
+
+        <div class="pricing">
+            <div class="price">\${{ sweet.price | number:'1.2-2' }}</div>
+            <div class="stock-info" [class.out]="sweet.quantity === 0">
+                {{ sweet.quantity }} in stock
+            </div>
+        </div>
+
+        <div class="actions-admin">
+            <button class="btn-edit" (click)="openEditModal(sweet)">✎ Edit</button>
+            <button class="btn-delete" (click)="onDelete(sweet.id)">🗑 Delete</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<app-sweet-form 
+    *ngIf="showModal" 
+    [sweet]="editingSweet" 
+    (save)="onSave($event)" 
+    (cancel)="closeModal()"
+></app-sweet-form>
