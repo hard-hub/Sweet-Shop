@@ -5,6 +5,7 @@ import morgan from 'morgan';
 
 import authRoutes from './modules/auth/auth.routes';
 import sweetsRoutes from './modules/sweets/sweets.routes';
+import purchasesRoutes from './modules/purchases/purchases.routes';
 import { errorHandler } from './middleware/error.middleware';
 
 const app = express();
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/sweets', sweetsRoutes);
+app.use('/api/sweets', purchasesRoutes); // Mounts on top of /api/sweets to enable /:id/purchase
 app.use(errorHandler);
 
 export default app;
