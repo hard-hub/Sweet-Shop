@@ -4,6 +4,7 @@ import { SweetsService, Sweet } from '../../services/sweets.service';
 import { AuthService } from '../../services/auth.service';
 import { SweetFormComponent } from '../../components/sweet-form/sweet-form.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-admin',
@@ -36,11 +37,7 @@ export class AdminComponent {
     }
 
     // Stats
-    totalProducts = computed(() => this.sweets().filter(s => !s.isDeleted).length); // Assuming admin sees soft deleted? Logic says admin sees all or filter? 
-    // Let's assume admin sees active ones normally but soft deleted management is extra constraint.
-    // Re-reading logic: SweetsService.getAllSweets() only returns non-deleted. 
-    // So stats are based on active.
-
+    totalProducts = computed(() => this.sweets().filter(s => !s.isDeleted).length);
     lowStock = computed(() => this.sweets().filter(s => s.quantity > 0 && s.quantity < 10).length);
     outOfStock = computed(() => this.sweets().filter(s => s.quantity === 0).length);
 
@@ -69,15 +66,56 @@ export class AdminComponent {
 
     onSave(sweetData: Partial<Sweet>) {
         if (this.editingSweet) {
-            this.sweetsService.updateSweet(this.editingSweet.id, sweetData).subscribe(() => this.closeModal());
+            this.sweetsService.updateSweet(this.editingSweet.id, sweetData).subscribe({
+                next: () => {
+                    this.closeModal();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated!',
+                        text: 'Sweet has been updated.',
+                        confirmButtonColor: '#ff416c',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
         } else {
-            this.sweetsService.createSweet(sweetData).subscribe(() => this.closeModal());
+            this.sweetsService.createSweet(sweetData).subscribe({
+                next: () => {
+                    this.closeModal();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Created!',
+                        text: 'New sweet added to stock.',
+                        confirmButtonColor: '#ff416c',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
         }
     }
 
     onDelete(id: string) {
-        if (confirm('Are you sure you want to delete this sweet?')) {
-            this.sweetsService.deleteSweet(id).subscribe();
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff416c',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.sweetsService.deleteSweet(id).subscribe(() => {
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Sweet has been deleted.',
+                        icon: 'success',
+                        confirmButtonColor: '#ff416c'
+                    });
+                });
+            }
+        });
     }
 }

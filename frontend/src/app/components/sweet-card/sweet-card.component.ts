@@ -1,6 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Sweet, SweetsService } from '../../services/sweets.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-sweet-card',
@@ -40,13 +41,25 @@ export class SweetCardComponent {
         this.isPurchasing = true;
         this.sweetsService.purchase(this.sweet.id, this.quantity).subscribe({
             next: () => {
-                alert('Purchase Successful! 🎉');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sweet! 🍭',
+                    text: 'Purchase Successful!',
+                    confirmButtonColor: '#ff416c',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 this.isPurchasing = false;
                 this.quantity = 1; // Reset
             },
             error: (err) => {
                 console.error(err);
-                alert('Failed to purchase. ' + (err.error?.message || 'Check stock or network.'));
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oh no!',
+                    text: 'Failed to purchase. ' + (err.error?.message || 'Check stock or network.'),
+                    confirmButtonColor: '#ff4b2b'
+                });
                 this.isPurchasing = false;
             }
         });

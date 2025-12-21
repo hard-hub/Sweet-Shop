@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-login',
@@ -30,7 +31,6 @@ export class LoginComponent {
 
             this.authService.login({ email, password }).subscribe({
                 next: () => {
-                    // Navigation will theoretically happen here, but for now just log
                     console.log('Logged in!');
                     this.isLoading = false;
                     this.router.navigate(['/dashboard']);
@@ -38,7 +38,12 @@ export class LoginComponent {
                 error: (err) => {
                     console.error(err);
                     this.isLoading = false;
-                    alert('Login failed! Check credentials.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Login failed! Check credentials.',
+                        confirmButtonColor: '#ff416c'
+                    });
                 }
             });
         } else {
