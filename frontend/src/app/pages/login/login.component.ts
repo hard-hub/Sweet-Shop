@@ -33,8 +33,7 @@ export class LoginComponent {
                     // Navigation will theoretically happen here, but for now just log
                     console.log('Logged in!');
                     this.isLoading = false;
-                    // Temporarily redirect to nothing or dashboard if we had it
-                    // this.router.navigate(['/dashboard']);
+                    this.router.navigate(['/dashboard']);
                 },
                 error: (err) => {
                     console.error(err);
